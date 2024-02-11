@@ -38,11 +38,19 @@ public class GeneratorForm {
     private void registerWebClientPathListener() {
         webClientPath.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {onWebClientPathChanged(); }
+            public void insertUpdate(DocumentEvent e) {
+                onWebClientPathChanged();
+            }
+
             @Override
-            public void removeUpdate(DocumentEvent e) {onWebClientPathChanged(); }
+            public void removeUpdate(DocumentEvent e) {
+                onWebClientPathChanged();
+            }
+
             @Override
-            public void changedUpdate(DocumentEvent e) {onWebClientPathChanged(); }
+            public void changedUpdate(DocumentEvent e) {
+                onWebClientPathChanged();
+            }
         });
     }
 
@@ -65,10 +73,12 @@ public class GeneratorForm {
             public void insertUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
