@@ -127,7 +127,7 @@ public class GeneratorForm {
     private void startScript() {
         try {
             String command = resultPane.getText().trim();
-            Runtime.getRuntime().exec("cmd.exe /c cd \"" + webClientPath.getText() + "\" & start cmd.exe /k \"echo Spoustim generovani.. && " + command + "\"");
+            Runtime.getRuntime().exec("cmd.exe /c cd \"" + webClientPath.getText().trim() + "\" & start cmd.exe /k \"echo Spoustim generovani.. && " + command + "\"");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
