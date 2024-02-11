@@ -1,3 +1,6 @@
+import utils.InputTextFilter;
+import utils.PluginBundle;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

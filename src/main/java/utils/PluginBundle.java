@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.ResourceBundle;
 
 public class PluginBundle {
