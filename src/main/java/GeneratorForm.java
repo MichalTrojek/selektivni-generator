@@ -1,10 +1,10 @@
-import utils.InputTextFilter;
+import com.intellij.openapi.project.Project;
 import utils.PluginBundle;
+import utils.PluginVersionUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -18,6 +18,7 @@ public class GeneratorForm {
     private JButton saveToClipboardBtn;
     private JButton startScriptBtn;
     private JTextField webClientPath;
+    private JLabel versionLabel;
 
     private String apiNames;
     private String modelNames;
@@ -25,7 +26,7 @@ public class GeneratorForm {
     private String APIS = "apis";
     private PluginState state;
 
-    public GeneratorForm(PluginState state) {
+    public GeneratorForm(PluginState state, Project project) {
         this.state = state.getState();
         registerWebClientPathListener();
         registerDocumentListener(apisInput, APIS);
@@ -33,6 +34,7 @@ public class GeneratorForm {
         registerSaveToClipBoardBtnListener();
         registerStartScriptBtnListener();
         restoreFromState(state);
+        setVersionLabel();
     }
 
     private void registerWebClientPathListener() {
@@ -41,12 +43,10 @@ public class GeneratorForm {
             public void insertUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
             }
-
             @Override
             public void removeUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
             }
-
             @Override
             public void changedUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
@@ -67,18 +67,15 @@ public class GeneratorForm {
     }
 
     private void registerDocumentListener(JTextField field, String fieldName) {
-        ((AbstractDocument) field.getDocument()).setDocumentFilter(new InputTextFilter());
         field.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
             }
-
             @Override
             public void removeUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
             }
-
             @Override
             public void changedUpdate(DocumentEvent e) {
                 onTextChange(fieldName, field.getText());
@@ -96,18 +93,18 @@ public class GeneratorForm {
             this.modelNames = names;
             this.state.setModelNames(names);
         }
-        updateResultAndSaveToState();
+        updateResult();
         this.state.setResult(resultPane.getText());
     }
 
     private String cleanText(String text) {
-        return text.trim().replaceAll(" ", ":")
-                .replaceAll(",", ":")
-                .replaceAll("\\.", ":")
-                .replace("::", ":");
+        return text.trim().replaceAll("\\s+", ":") // prazdna mista na :
+                .replaceAll(",+", ":")
+                .replaceAll("\\.+", ":")
+                .replaceAll(":+", ":");
     }
 
-    private void updateResultAndSaveToState() {
+    private void updateResult() {
         String script = PluginBundle.getString("script");
         StringBuilder sb = new StringBuilder(script).append(" ").append(addWrapper(APIS, apiNames)).append(" ").append(addWrapper(MODELS, modelNames));
         resultPane.setText(sb.toString());
@@ -147,8 +144,16 @@ public class GeneratorForm {
         this.apisInput.setText(state.getApiNames().replaceAll(":", " ").trim());
         this.modelsInput.setText(state.getModelNames().replaceAll(":", " ").trim());
         this.webClientPath.setText(state.getWebClientPath());
-        this.updateResultAndSaveToState();
+        this.updateResult();
     }
+
+    private void setVersionLabel() {
+        String version = PluginVersionUtil.getPluginVersion();
+        if(version != null) {
+            this.versionLabel.setText("v." + version);
+        };
+    }
+
 
     public JPanel getMainPanel() {
         return mainPanel;
