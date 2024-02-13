@@ -12,7 +12,7 @@ final class PluginToolWindowFactory implements ToolWindowFactory, DumbAware {
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         PluginState state = ApplicationManager.getApplication().getService(PluginState.class);
-        Content content = ContentFactory.getInstance().createContent(new GeneratorForm(state, project).getMainPanel(), "", false);
+        Content content = ContentFactory.getInstance().createContent(new GeneratorForm(state).getMainPanel(), "", false);
         toolWindow.getContentManager().addContent(content);
     }
 
