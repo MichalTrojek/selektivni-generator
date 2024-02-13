@@ -5,5 +5,5 @@
 
 
 <!-- Plugin description -->
- Intellij plugin pro selektivní generovaní modelu a rest controllerů.
+ Plugin pro selektivní generovaní modelu a rest controllerů.
 <!-- Plugin description end -->
