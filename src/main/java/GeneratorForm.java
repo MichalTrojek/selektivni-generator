@@ -14,7 +14,7 @@ public class GeneratorForm {
     private JPanel mainPanel;
     private JTextField apisInput;
     private JTextField modelsInput;
-    private JTextPane resultPane;
+    private JTextArea resultPane;
     private JButton saveToClipboardBtn;
     private JButton startScriptBtn;
     private JTextField webClientPath;

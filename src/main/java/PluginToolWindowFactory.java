@@ -16,4 +16,6 @@ final class PluginToolWindowFactory implements ToolWindowFactory, DumbAware {
         toolWindow.getContentManager().addContent(content);
     }
 
+
+
 }
