@@ -26,7 +26,7 @@ public class GeneratorForm {
     private String APIS = "apis";
     private PluginState state;
 
-    public GeneratorForm(PluginState state, Project project) {
+    public GeneratorForm(PluginState state) {
         this.state = state.getState();
         registerWebClientPathListener();
         registerDocumentListener(apisInput, APIS);

@@ -10,8 +10,4 @@ public class PluginBundle {
         return ResourceBundle.getBundle(BUNDLE_NAME).getString(key);
     }
 
-    public static String getVersion(String key) {
-        return ResourceBundle.getBundle(BUNDLE_NAME).getString(key);
-    }
-
 }
