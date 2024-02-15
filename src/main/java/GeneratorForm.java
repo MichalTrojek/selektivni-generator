@@ -1,10 +1,12 @@
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
 import utils.PluginBundle;
 import utils.PluginVersionUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -12,29 +14,36 @@ import java.io.IOException;
 
 public class GeneratorForm {
     private JPanel mainPanel;
-    private JTextField apisInput;
-    private JTextField modelsInput;
     private JTextArea resultPane;
     private JButton saveToClipboardBtn;
     private JButton startScriptBtn;
     private JTextField webClientPath;
     private JLabel versionLabel;
+    private JavaClassTextField javaClassTextField1;
+    private JavaClassTextField javaClassTextField2;
 
     private String apiNames;
     private String modelNames;
     private String MODELS = "models";
     private String APIS = "apis";
     private PluginState state;
+    private Project project;
 
-    public GeneratorForm(PluginState state) {
+    public GeneratorForm(PluginState state, Project project) {
+        this.project = project;
         this.state = state.getState();
         registerWebClientPathListener();
-        registerDocumentListener(apisInput, APIS);
-        registerDocumentListener(modelsInput, MODELS);
+        registerDocumentListener(javaClassTextField1, APIS);
+        registerDocumentListener(javaClassTextField2, MODELS);
         registerSaveToClipBoardBtnListener();
         registerStartScriptBtnListener();
         restoreFromState(state);
         setVersionLabel();
+    }
+
+    public void createUIComponents(){
+        this.javaClassTextField1 =  new JavaClassTextField(project);
+        this.javaClassTextField2 =  new JavaClassTextField(project);
     }
 
     private void registerWebClientPathListener() {
@@ -66,18 +75,10 @@ public class GeneratorForm {
         this.startScriptBtn.setEnabled(enabled);
     }
 
-    private void registerDocumentListener(JTextField field, String fieldName) {
-        field.getDocument().addDocumentListener(new DocumentListener() {
+    private void registerDocumentListener(JavaClassTextField field, String fieldName) {
+        field.getDocument().addDocumentListener(new com.intellij.openapi.editor.event.DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                onTextChange(fieldName, field.getText());
-            }
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                onTextChange(fieldName, field.getText());
-            }
-            @Override
-            public void changedUpdate(DocumentEvent e) {
+            public void documentChanged(com.intellij.openapi.editor.event.@NotNull DocumentEvent event) {
                 onTextChange(fieldName, field.getText());
             }
         });
@@ -141,8 +142,8 @@ public class GeneratorForm {
     }
 
     private void restoreFromState(PluginState state) {
-        this.apisInput.setText(state.getApiNames().replaceAll(":", " ").trim());
-        this.modelsInput.setText(state.getModelNames().replaceAll(":", " ").trim());
+        this.javaClassTextField1.setText(state.getApiNames().replaceAll(":", " ").trim());
+        this.javaClassTextField2.setText(state.getModelNames().replaceAll(":", " ").trim());
         this.webClientPath.setText(state.getWebClientPath());
         this.updateResult();
     }
