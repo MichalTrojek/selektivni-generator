@@ -15,7 +15,7 @@
           <grid row="9" column="1" row-span="1" col-span="6" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="850f7" class="JavaClassTextField" binding="javaClassTextField2" custom-create="true" default-binding="true">
+      <component id="e3c99" class="TextFieldWithSuggestions" binding="modelInput" custom-create="true">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="500" height="-1"/>
@@ -25,7 +25,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="66f72" class="JavaClassTextField" binding="javaClassTextField1" custom-create="true" default-binding="true">
+      <component id="66f72" class="TextFieldWithSuggestions" binding="restInput" custom-create="true" default-binding="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <minimum-size width="500" height="-1"/>

@@ -2,6 +2,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import utils.PluginBundle;
 import utils.PluginVersionUtil;
+import utils.SuggestionsUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,6 +11,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.IOException;
 
 public class GeneratorForm {
@@ -19,8 +22,8 @@ public class GeneratorForm {
     private JButton startScriptBtn;
     private JTextField webClientPath;
     private JLabel versionLabel;
-    private JavaClassTextField javaClassTextField1;
-    private JavaClassTextField javaClassTextField2;
+    private TextFieldWithSuggestions restInput;
+    private TextFieldWithSuggestions modelInput;
 
     private String apiNames;
     private String modelNames;
@@ -33,17 +36,31 @@ public class GeneratorForm {
         this.project = project;
         this.state = state.getState();
         registerWebClientPathListener();
-        registerDocumentListener(javaClassTextField1, APIS);
-        registerDocumentListener(javaClassTextField2, MODELS);
+        registerDocumentListener(restInput, APIS);
+        registerDocumentListener(modelInput, MODELS);
         registerSaveToClipBoardBtnListener();
         registerStartScriptBtnListener();
         restoreFromState(state);
         setVersionLabel();
     }
 
-    public void createUIComponents(){
-        this.javaClassTextField1 =  new JavaClassTextField(project);
-        this.javaClassTextField2 =  new JavaClassTextField(project);
+    public void createUIComponents() {
+        this.restInput = createTextFieldWidthSuggestions(project);
+        this.modelInput = createTextFieldWidthSuggestions(project);
+    }
+
+    private TextFieldWithSuggestions createTextFieldWidthSuggestions(Project project) {
+        TextFieldWithSuggestions field = new TextFieldWithSuggestions(project);
+        field.addFocusListener((new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                field.setVariants(SuggestionsUtil.getSuggestions(project));
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+            }
+        }));
+        return field;
     }
 
     private void registerWebClientPathListener() {
@@ -52,10 +69,12 @@ public class GeneratorForm {
             public void insertUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
             }
+
             @Override
             public void removeUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
             }
+
             @Override
             public void changedUpdate(DocumentEvent e) {
                 onWebClientPathChanged();
@@ -75,7 +94,7 @@ public class GeneratorForm {
         this.startScriptBtn.setEnabled(enabled);
     }
 
-    private void registerDocumentListener(JavaClassTextField field, String fieldName) {
+    private void registerDocumentListener(TextFieldWithSuggestions field, String fieldName) {
         field.getDocument().addDocumentListener(new com.intellij.openapi.editor.event.DocumentListener() {
             @Override
             public void documentChanged(com.intellij.openapi.editor.event.@NotNull DocumentEvent event) {
@@ -142,19 +161,19 @@ public class GeneratorForm {
     }
 
     private void restoreFromState(PluginState state) {
-        this.javaClassTextField1.setText(state.getApiNames().replaceAll(":", " ").trim());
-        this.javaClassTextField2.setText(state.getModelNames().replaceAll(":", " ").trim());
+        this.restInput.setText(state.getApiNames().replaceAll(":", " ").trim());
+        this.modelInput.setText(state.getModelNames().replaceAll(":", " ").trim());
         this.webClientPath.setText(state.getWebClientPath());
         this.updateResult();
     }
 
     private void setVersionLabel() {
         String version = PluginVersionUtil.getPluginVersion();
-        if(version != null) {
+        if (version != null) {
             this.versionLabel.setText("v." + version);
-        };
+        }
+        ;
     }
-
 
     public JPanel getMainPanel() {
         return mainPanel;
