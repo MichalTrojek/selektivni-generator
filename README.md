@@ -5,5 +5,5 @@
 
 
 <!-- Plugin description -->
- Plugin pro selektivni generovani modelu a rest controlleru.
+A plugin to simplify the selective generation of DTOs and REST apis.
 <!-- Plugin description end -->
