@@ -4,4 +4,4 @@
 
 ## [Unreleased]
 ### Added
-- multiselect width suggestions
+- multiselect with suggestions
