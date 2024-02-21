@@ -172,7 +172,6 @@ public class GeneratorForm {
         if (version != null) {
             this.versionLabel.setText("v." + version);
         }
-        ;
     }
 
     public JPanel getMainPanel() {

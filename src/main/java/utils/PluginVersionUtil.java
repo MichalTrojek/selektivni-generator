@@ -7,7 +7,7 @@ import com.intellij.openapi.extensions.PluginId;
 public class PluginVersionUtil {
     public static String getPluginVersion() {
         // Get the plugin ID
-        PluginId pluginId = PluginId.getId("com.github.michaltrojek.selektivni-generator");
+        PluginId pluginId = PluginId.getId("com.github.michaltrojek.selective-generator");
 
         // Get the plugin descriptor
         IdeaPluginDescriptor pluginDescriptor = PluginManager.getPlugin(pluginId);
