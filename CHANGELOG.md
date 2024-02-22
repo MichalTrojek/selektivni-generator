@@ -4,4 +4,4 @@
 
 ## [Unreleased]
 ### Added
-- multiselect with suggestions
+- našeptávní názvu tříd se bude spuštět na vlastním vlákně

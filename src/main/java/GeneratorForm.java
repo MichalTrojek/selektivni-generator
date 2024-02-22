@@ -54,7 +54,9 @@ public class GeneratorForm {
         field.addFocusListener((new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                field.setVariants(SuggestionsUtil.getSuggestions(project));
+                SwingUtilities.invokeLater(() -> {
+                    field.setVariants(SuggestionsUtil.getSuggestions(project));
+                });
             }
             @Override
             public void focusLost(FocusEvent e) {
