@@ -4,4 +4,4 @@
 
 ## [Unreleased]
 ### Added
-- našeptávní názvu tříd se bude spuštět na vlastním vlákně
+- aktualizace skriptu 
