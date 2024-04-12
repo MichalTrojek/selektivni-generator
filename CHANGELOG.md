@@ -4,4 +4,4 @@
 
 ## [Unreleased]
 ### Added
-- aktualizace skriptu 
+- odstranil max IDE limit
