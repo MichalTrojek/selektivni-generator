@@ -21,6 +21,7 @@ public class GeneratorForm {
     private JButton saveToClipboardBtn;
     private JButton startScriptBtn;
     private JTextField webClientPath;
+    private JButton setScriptBtn;
     private JLabel versionLabel;
     private TextFieldWithSuggestions restInput;
     private TextFieldWithSuggestions modelInput;
@@ -42,6 +43,23 @@ public class GeneratorForm {
         registerStartScriptBtnListener();
         restoreFromState(state);
         setVersionLabel();
+        registerSetScriptBtnListener();
+    }
+
+    private void registerSetScriptBtnListener() {
+        setScriptBtn.addActionListener((ActionListener) -> openScriptDialog());
+    }
+
+    private void openScriptDialog() {
+        ScriptDialog dialog = new ScriptDialog(project, state.resolveScript());
+        if (dialog.showAndGet()) {
+            // jednoradkovy prikaz - zalomeni nahradit mezerou
+            String value = dialog.getScript().trim().replaceAll("\\s*\\R\\s*", " ");
+            // vychozi skript se neuklada, aby se budouci zmeny vychoziho skriptu projevily
+            state.setScript(value.equals(PluginBundle.getString("script")) ? "" : value);
+            updateResult();
+            state.setResult(resultPane.getText());
+        }
     }
 
     public void createUIComponents() {
@@ -127,7 +145,7 @@ public class GeneratorForm {
     }
 
     private void updateResult() {
-        String script = PluginBundle.getString("script");
+        String script = state.resolveScript();
         StringBuilder sb = new StringBuilder(script).append(" ").append(addWrapper(APIS, apiNames)).append(" ").append(addWrapper(MODELS, modelNames));
         resultPane.setText(sb.toString());
     }

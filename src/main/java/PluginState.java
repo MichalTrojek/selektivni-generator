@@ -3,6 +3,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import utils.PluginBundle;
 
 @State(
         name = "PluginState",
@@ -14,6 +15,7 @@ public class PluginState implements PersistentStateComponent<PluginState> {
     private String modelNames =  "";
     private String result = "";
     private String webClientPath = "";
+    private String script = "";
 
     @Nullable
     @Override
@@ -26,6 +28,14 @@ public class PluginState implements PersistentStateComponent<PluginState> {
         this.apiNames = state.apiNames;
         this.modelNames = state.modelNames;
         this.webClientPath = state.webClientPath;
+        this.script = state.script;
+    }
+
+    /**
+     * Skript z nastaveni uzivatele, nebo vychozi z plugin.properties, pokud je prazdny.
+     */
+    public String resolveScript() {
+        return script == null || script.trim().isEmpty() ? PluginBundle.getString("script") : script.trim();
     }
 
     public String getApiNames() {
@@ -58,5 +68,13 @@ public class PluginState implements PersistentStateComponent<PluginState> {
 
     public void setWebClientPath(String webClientPath) {
         this.webClientPath = webClientPath;
+    }
+
+    public String getScript() {
+        return script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
     }
 }

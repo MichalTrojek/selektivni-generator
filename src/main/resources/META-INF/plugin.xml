@@ -14,7 +14,6 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Selektivní Generator" anchor="right" factoryClass="PluginToolWindowFactory" icon="/icons/swagger.svg"/>
-        <applicationService serviceImplementation="PluginState" />
-    </extensions>
+        <applicationService serviceImplementation="PluginState" />    </extensions>
 
 </idea-plugin>

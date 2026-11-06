@@ -73,6 +73,11 @@ tasks {
         gradleVersion = properties("gradleVersion").get()
     }
 
+    // zdrojaky jsou v UTF-8 (jinak javac na Windows pouzije cp1250 a rozbije diakritiku)
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
     patchPluginXml {
         version = properties("pluginVersion")
         sinceBuild = properties("pluginSinceBuild")
