@@ -3,6 +3,5 @@
 # selektivni-generator Changelog
 
 ## [Unreleased]
-### Added
-- odstranil max IDE limit
-- tlačítko "Nastavit skript" - možnost upravit základní příkaz generátoru přímo v pluginu
+### Changed
+- výchozí skript bez `-t openapi-templates`
